@@ -24,6 +24,7 @@ public class MessageAdapter extends BaseAdapter {
     //Integer values for Incoming and Outgoing function
     public static final int DIRECTION_INCOMING = 0;
     public static final int DIRECTION_OUTGOING = 1;
+    public static final int DIRECTION_RESPONSE = 2;
 
     private List<Pair<String, Integer>> messages;
     private LayoutInflater layoutInflater;
@@ -60,7 +61,7 @@ public class MessageAdapter extends BaseAdapter {
 
     @Override
     public int getViewTypeCount() {
-        return 2;
+        return 3;
     }
 
     @Override
@@ -71,7 +72,7 @@ public class MessageAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         int direction = getItemViewType(position);
-
+        Log.d(TAG, "getView(), inside function");
         //show message on left or right, depending on if
         //it's incoming or outgoing
         if (convertView == null) {
@@ -80,12 +81,18 @@ public class MessageAdapter extends BaseAdapter {
                 res = R.layout.message_right;
             } else if (direction == DIRECTION_OUTGOING) {
                 res = R.layout.message_left;
+            } else if(direction == DIRECTION_RESPONSE){
+                res = R.layout.message_response;
             }
             convertView = layoutInflater.inflate(res, parent, false);
         }
 
         String message = messages.get(position).first;
 
+        if(direction == DIRECTION_RESPONSE){
+            Log.d(TAG,"getView(), return response if #test");
+            return convertView;
+        }
         Date date = new Date();
         TextView txtMessage = (TextView) convertView.findViewById(R.id.txtMessage);
         TextView txtDate = (TextView) convertView.findViewById(R.id.txtDate);

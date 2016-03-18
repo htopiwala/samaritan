@@ -85,9 +85,14 @@ public class MainActivity extends AppCompatActivity {
             message = "#weather will allow you to search weather information about a location.";
         }else if(messageBody.equals("#twitter")){
             message = "#twitter will give you the latest tweets from a an user account.";
+        }else if(messageBody.equals("#test")){
+            message = "";
+            messageAdapter.addMessage(message, MessageAdapter.DIRECTION_RESPONSE);
+            return;
         }else {
             message = "You've entered a wrong command, send #help for more information";
         }
+        Log.d(TAG, "handleResponse(), sending the outgoing message");
         messageAdapter.addMessage(message, MessageAdapter.DIRECTION_OUTGOING);
     }
     @Override

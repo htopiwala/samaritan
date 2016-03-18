@@ -8,4 +8,5 @@
     <color name="offWhite">#F3E5F5</color>
     <color name="darkGray">#E0E0E0</color>
     <color name="veryDarkGray">#636363</color>
+    <color name="white">#FFFFFF</color>
 </resources>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:background="@color/white">
+
+        <TextView
+            android:id="@+id/responseMessageHeader"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:text="Header"
+            android:textSize="18sp"
+            android:padding="10dp"
+            android:gravity="center"
+            />
+        <TextView
+            android:id="@+id/responseMessageText"
+            android:layout_width="220dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/responseMessageHeader"
+            android:layout_alignParentRight="true"
+            android:textSize="14sp"
+            android:padding="10dp"
+            android:text="Lorem ipsum dolor sit amet, odio tincidunt reprehendunt cu pri, sit ut homero quaeque. Ut vim solum dolore deseruisse, vix perfecto hendrerit eu. Eos et accusata posidonium, mei tollit facete delicatissimi cu. Sit virtute mentitum expetendis no, vim duis tacimates efficiantur ea."
+            />
+        <ImageView
+            android:id="@+id/responseMessageImage"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/responseMessageHeader"
+            android:layout_toLeftOf="@+id/responseMessageText"
+            android:src="@drawable/send_button_normal"
+            android:padding="5dp"/>
+
+    </RelativeLayout>
+</RelativeLayout>
