@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:paddingLeft="2dp"
             android:paddingBottom="6dp"
-            android:textSize="12sp"
+            android:textSize="14sp"
             android:text=""
             android:layout_alignBottom="@+id/txtSender"
             />
@@ -38,18 +38,18 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/txtSender"
             android:layout_alignParentRight="true"
-            android:padding="12dp"
+            android:padding="7dp"
             android:background="@drawable/purple_bubble"
             >
 
             <TextView
                 android:id="@+id/txtMessage"
-                android:paddingRight="12dp"
+                android:paddingRight="16dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:textColor="@android:color/white"
-                android:textSize="14sp"
+                android:textSize="18sp"
                 android:text="Hello, how are you?"
                 />
 
