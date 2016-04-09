@@ -34,7 +34,7 @@
             />
 
         <RelativeLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/txtSender"
             android:layout_alignParentRight="true"
@@ -49,8 +49,8 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:textColor="@android:color/white"
-                android:textSize="18sp"
-                android:text="Hello, how are you?"
+                android:textSize="14sp"
+                android:text="Hello"
                 />
 
         </RelativeLayout>

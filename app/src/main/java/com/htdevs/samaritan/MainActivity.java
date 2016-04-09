@@ -1,5 +1,6 @@
 package com.htdevs.samaritan;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +12,9 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -24,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.d(TAG, "onCreate(), Inside method");
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -77,15 +82,42 @@ public class MainActivity extends AppCompatActivity {
     private void handleResponse(){
         Log.d(TAG, "handleResponse() handle the response of the user's request");
         String message;
-        if(messageBody.equals("#help")){
+        List<String> messageList = Arrays.asList(messageBody.split(" "));
+        String messageCore = messageList.get(0);
+        if(messageCore.equals("#help")){
             message = "You can access the following features:\n#twitter\n#weather\n#movies";
-        } else if(messageBody.equals("#movies")){
+        }  if(messageBody.equals("#help weather")){
+            message = "You can get the weather of any city in the world by entering\n\n#weather <city-name> <F/C> <No. of days>";
+        }
+        else if(messageCore.equals("#movies")){
             message = "#movies will allow you to search latest movies from the online repository.";
-        }else if(messageBody.equals("#weather")){
-            message = "#weather will allow you to search weather information about a location.";
-        }else if(messageBody.equals("#twitter")){
+        }else if(messageCore.equals("#weather")){
+            FetchWeatherTask weather = new FetchWeatherTask(messageAdapter);
+            String location = "Chennai";
+            String unitsPref = "metric";
+            String numDays = "1";
+            if(messageList.size()==1){
+                message = "Uh oh! You just got 404'D.\nEnter message in proper format. Enter '#help weather' for more options.";
+                messageAdapter.addMessage(message,MessageAdapter.DIRECTION_OUTGOING);
+                return;
+            }
+            else if(messageList.size()==2){
+                location = messageList.get(1);
+            } else if(messageList.size()==3){
+                location = messageList.get(1);
+                if(messageList.get(2).equals("F"))
+                    unitsPref = "imperial";
+            } else if(messageList.size()==4) {
+                location = messageList.get(1);
+                if (messageList.get(2).equals("F"))
+                    unitsPref = "imperial";
+                numDays = messageList.get(3);
+            }
+            weather.execute(location, unitsPref, numDays);
+            return;
+        }else if(messageCore.equals("#twitter")){
             message = "#twitter will give you the latest tweets from a an user account.";
-        }else if(messageBody.equals("#test")){
+        }else if(messageCore.equals("#test")){
             message = "";
             messageAdapter.addMessage(message, MessageAdapter.DIRECTION_RESPONSE);
             return;
