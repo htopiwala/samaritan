@@ -90,7 +90,15 @@ public class MainActivity extends AppCompatActivity {
             message = "You can get the weather of any city in the world by entering\n\n#weather <city-name> <F/C> <No. of days>";
         }
         else if(messageCore.equals("#movies")){
-            message = "#movies will allow you to search latest movies from the online repository.";
+            FetchMovieTask movie = new FetchMovieTask(messageAdapter);
+            if(messageBody.length()>8) {
+                String movieQuery = messageBody.substring(8);
+                movie.execute(movieQuery);
+                return;
+            }else{
+                message = "Enter proper format";
+            }
+
         }else if(messageCore.equals("#weather")){
             FetchWeatherTask weather = new FetchWeatherTask(messageAdapter);
             String location = "Chennai";
@@ -127,6 +135,12 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "handleResponse(), sending the outgoing message");
         messageAdapter.addMessage(message, MessageAdapter.DIRECTION_OUTGOING);
     }
+
+    //Function to handle movie response
+    private void handleMovieResponse(String[] messageList){
+
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.

@@ -2,6 +2,7 @@ package com.htdevs.samaritan;
 
 import android.app.Activity;
 import android.nfc.Tag;
+import android.text.Html;
 import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
@@ -97,7 +98,7 @@ public class MessageAdapter extends BaseAdapter {
         TextView txtMessage = (TextView) convertView.findViewById(R.id.txtMessage);
         TextView txtDate = (TextView) convertView.findViewById(R.id.txtDate);
         txtDate.setText(date.toString());
-        txtMessage.setText(message);
+        txtMessage.setText(Html.fromHtml(message));
 
         return convertView;
     }
