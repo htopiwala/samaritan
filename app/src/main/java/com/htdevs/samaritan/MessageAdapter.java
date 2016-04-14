@@ -3,13 +3,19 @@ package com.htdevs.samaritan;
 import android.app.Activity;
 import android.nfc.Tag;
 import android.text.Html;
+import android.text.SpannableString;
 import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -26,12 +32,15 @@ public class MessageAdapter extends BaseAdapter {
     public static final int DIRECTION_INCOMING = 0;
     public static final int DIRECTION_OUTGOING = 1;
     public static final int DIRECTION_RESPONSE = 2;
+    public static final int DIRECTION_MOVIE_RESPONSE = 3;
 
     private List<Pair<String, Integer>> messages;
     private LayoutInflater layoutInflater;
+    public Activity activity;
 
     //Initializing constructor
     public MessageAdapter(Activity activity){
+        this.activity = activity;
         Log.d(TAG, "MessageAdapter() constructor, initializing layoutInflater");
         layoutInflater = activity.getLayoutInflater();
         messages = new ArrayList<Pair<String, Integer>>();
@@ -62,7 +71,7 @@ public class MessageAdapter extends BaseAdapter {
 
     @Override
     public int getViewTypeCount() {
-        return 3;
+        return 4;
     }
 
     @Override
@@ -84,6 +93,8 @@ public class MessageAdapter extends BaseAdapter {
                 res = R.layout.message_left;
             } else if(direction == DIRECTION_RESPONSE){
                 res = R.layout.message_response;
+            } else if(direction == DIRECTION_MOVIE_RESPONSE) {
+                res = R.layout.message_movie_response;
             }
             convertView = layoutInflater.inflate(res, parent, false);
         }
@@ -98,8 +109,33 @@ public class MessageAdapter extends BaseAdapter {
         TextView txtMessage = (TextView) convertView.findViewById(R.id.txtMessage);
         TextView txtDate = (TextView) convertView.findViewById(R.id.txtDate);
         txtDate.setText(date.toString());
-        txtMessage.setText(Html.fromHtml(message));
+        if(direction == DIRECTION_MOVIE_RESPONSE){
+            String data = "";
+            String posterPath = "";
+            try{
+                JSONObject jsonObject = new JSONObject(message);
+                data = jsonObject.getString("data");
+                posterPath = jsonObject.getString("posterPath");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            ImageView imageView = (ImageView) convertView.findViewById(R.id.txtMessageImage);
+            Picasso.with(activity)
+                    .load(posterPath)
+                    .placeholder(R.drawable.placeholder)
+                    .resize(220,280)
+                    .into(imageView);
 
+            //Code for justified alignment of text
+            SpannableString spannableString = new SpannableString(Html.fromHtml(data));
+            int leftMargin = 230;
+            spannableString.setSpan(new MyLeadingMarginSpan2(10, leftMargin), 0, spannableString.length(), 0);
+
+            txtMessage.setText(spannableString);
+
+            return convertView;
+        }
+        txtMessage.setText(message);
         return convertView;
     }
 }

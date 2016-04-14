@@ -62,15 +62,18 @@ public class FetchMovieTask extends AsyncTask<String, Void, String> {
             String genreStr = getGenreIds(genreIdsArray);
             double voteAverage = movieInfo.getDouble(MDB_VOTE_AVERAGE);
 
-            String finalMovieStr = "Movie you requested...<br><br >";
+            String finalMovieStr = "Movie you requested...<br><br>";
             finalMovieStr += "<b>Title : </b>" + title + "<br>";
             finalMovieStr += "<b>Overview : </b>" + overview + "<br>";
-            finalMovieStr += "<b>Poster : </b>" + posterPath + "<br>";
             finalMovieStr += "<b>Release Date : </b>" + releaseDate + "<br>";
             finalMovieStr += "<b>Genres : </b>" + genreStr + "<br>";
             finalMovieStr += "<b>Ratings : </b>" + voteAverage + "<br>";
 
-            return finalMovieStr;
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("data", finalMovieStr);
+            jsonObject.put("posterPath", "https://image.tmdb.org/t/p/w185/".concat(posterPath));
+
+            return jsonObject.toString();
         }
     }
 
@@ -93,10 +96,10 @@ public class FetchMovieTask extends AsyncTask<String, Void, String> {
         String genreList = "";
         for (int i = 0; i < genreIdsArray.length(); i++) {
             int tempId = genreIdsArray.getInt(i);
-            genreList = genreList + genreMap.get(tempId) + ",";
+            genreList = genreList + genreMap.get(tempId) + ", ";
         }
         if(genreList.length()>0) {
-            genreList = genreList.substring(0, genreList.length() - 1);
+            genreList = genreList.substring(0, genreList.length() - 2);
         }
 
         return genreList;
@@ -200,9 +203,7 @@ public class FetchMovieTask extends AsyncTask<String, Void, String> {
         } else if (finalString.equals("zero")) {
             messageAdapter.addMessage("Uh oh! You just got 404'D. Movie not found", MessageAdapter.DIRECTION_OUTGOING);
         } else {
-            messageAdapter.addMessage(finalString, MessageAdapter.DIRECTION_OUTGOING);
+            messageAdapter.addMessage(finalString, MessageAdapter.DIRECTION_MOVIE_RESPONSE);
         }
     }
 }
-
-
